@@ -1,0 +1,48 @@
+/* SignUpForm.css */
+.form {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #f5f5f5;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .form label {
+    display: block;
+    margin-bottom: 6px;
+  }
+  
+  .form input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 12px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+  
+  .form input:focus {
+    outline: none;
+    border-color: dodgerblue;
+  }
+  
+  .form button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: dodgerblue;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .form button:hover {
+    background-color: #007acc;
+  }
+  
+  .form div.error {
+    color: red;
+    font-size: 12px;
+    margin-top: 4px;
+  }
