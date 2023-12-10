@@ -13,7 +13,7 @@ const Home: React.FC = () => {
   return (
     <div>
     <nav className="navbar">
-      <div className="navbar-brand">Easy Generator</div>
+      <div className="navbar-brand">easy generator</div>
       <div className="navbar-links">
         <button className="logout-btn" onClick={handleLogout}>
           Logout

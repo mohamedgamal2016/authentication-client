@@ -18,11 +18,18 @@ const SignUp: React.FC = () => {
       await axios.post(`${EnvironmentVariables.BASE_URL}/auth/signup`, values);
       navigate('/login');
     } catch (error: any) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: error.response.data.message,
-      });
+        if(error.response){
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: error.response.data.message,
+          });
+        }
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Internal Server Error',
+        });
     } finally {
       setIsLoading(false);
     }
@@ -40,7 +47,7 @@ const SignUp: React.FC = () => {
         password: Yup.string()
           .required('Password is required')
           .matches(
-            /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+            /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&-_~`[:;/^*()+={}])[A-Za-z\d@$!%*#?&-_~`[:;/^*()+={}]{8,}$/,
             'Password must contain at least 1 letter, 1 number, 1 special character, and be at least 8 characters long'
           ),
       }),
@@ -49,8 +56,14 @@ const SignUp: React.FC = () => {
     },
   });
 
+  const handleLoginRedirect = useCallback(()=>{
+    navigate('/login');
+  },[navigate]);
+
   return (
-    <form onSubmit={formik.handleSubmit} className='form'>
+    <div className='container'>
+    <div className="form-container">
+      <form onSubmit={formik.handleSubmit} className='form'>
       <div>
         <label htmlFor="username">Username</label>
         <input
@@ -95,6 +108,11 @@ const SignUp: React.FC = () => {
       </div>
       <button type="submit">{isLoading ? <Spinner /> : 'Sign Up'}</button>
     </form>
+    </div>
+    <div className="login-link">
+    <p>Already have an account? <a href="/login" onClick={handleLoginRedirect}>Login</a></p>
+    </div>
+    </div>
   );
 };
 

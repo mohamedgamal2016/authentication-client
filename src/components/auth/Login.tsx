@@ -21,11 +21,18 @@ const Login: React.FC = () => {
 
       navigate('/home');
     } catch (error: any) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: error.response.data.message,
-      });
+        if(error.response){
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: error.response.data.message,
+          });
+        }
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Internal Server Error',
+        });
     } finally {
       setIsLoading(false);
     }
@@ -47,6 +54,8 @@ const Login: React.FC = () => {
   });
 
   return (
+    <div className='container'>
+    <div className="form-container">
     <form onSubmit={formik.handleSubmit} className='form'>
       <div>
         <label htmlFor="email">Email</label>
@@ -78,6 +87,8 @@ const Login: React.FC = () => {
       </div>
       <button type="submit">{isLoading ? <Spinner /> : 'Login'}</button>
     </form>
+    </div>
+    </div>
   );
 };
 
