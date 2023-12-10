@@ -3,6 +3,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
+Add your .env file like the .env-sample file
 
 In the project directory, you can run:
 
