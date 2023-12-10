@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import './form.css';
@@ -11,6 +11,22 @@ import { EnvironmentVariables } from '../../constants/EnvironmentVariables';
 const SignUp: React.FC = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  
+  const handleSubmit = useCallback(async(values:any)=>{
+    setIsLoading(true);
+    try {
+      await axios.post(`${EnvironmentVariables.BASE_URL}/auth/signup`, values);
+      navigate('/login');
+    } catch (error: any) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: error.response.data.message,
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  },[navigate]);
   
   const formik = useFormik({
     initialValues: {
@@ -29,19 +45,7 @@ const SignUp: React.FC = () => {
           ),
       }),
     onSubmit: async (values) => {
-      setIsLoading(true);
-      try {
-        await axios.post(`${EnvironmentVariables.BASE_URL}/auth/signup`, values);
-        navigate('/login');
-      } catch (error: any) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: error.response.data.message,
-        });
-      } finally {
-        setIsLoading(false);
-      }
+      await handleSubmit(values);
     },
   });
 

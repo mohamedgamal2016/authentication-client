@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import './form.css';
@@ -12,6 +12,25 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
+  const handleSubmit = useCallback(async(values:any)=>{
+    setIsLoading(true);
+    try {
+      const response = await axios.post(`${EnvironmentVariables.BASE_URL}/auth/login`, values);
+      const token = response.data.token;
+      localStorage.setItem('token', token);
+
+      navigate('/home');
+    } catch (error: any) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: error.response.data.message,
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  },[navigate]);
+  
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -23,22 +42,7 @@ const Login: React.FC = () => {
           .required('Password is required'),
       }),
     onSubmit: async (values) => {
-      setIsLoading(true);
-      try {
-        const response = await axios.post(`${EnvironmentVariables.BASE_URL}/auth/login`, values);
-        const token = response.data.token;
-        localStorage.setItem('token', token);
-
-        navigate('/home');
-      } catch (error: any) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: error.response.data.message,
-        });
-      } finally {
-        setIsLoading(false);
-      }
+      await handleSubmit(values);
     },
   });
 
