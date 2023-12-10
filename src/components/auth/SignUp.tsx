@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import Spinner from '../ui/Spinner';
 import Swal from 'sweetalert2';
+import { EnvironmentVariables } from '../../constants/EnvironmentVariables';
 
 const SignUp: React.FC = () => {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ const SignUp: React.FC = () => {
     onSubmit: async (values) => {
       setIsLoading(true);
       try {
-        await axios.post('http://localhost:5000/api/auth/signup', values);
+        await axios.post(`${EnvironmentVariables.BASE_URL}/auth/signup`, values);
         navigate('/login');
       } catch (error: any) {
         Swal.fire({

@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Spinner from '../ui/Spinner';
 import Swal from 'sweetalert2';
 import axios from 'axios';
+import { EnvironmentVariables } from '../../constants/EnvironmentVariables';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ const Login: React.FC = () => {
     onSubmit: async (values) => {
       setIsLoading(true);
       try {
-        const response = await axios.post('http://localhost:5000/api/auth/login', values);
+        const response = await axios.post(`${EnvironmentVariables.BASE_URL}/auth/login`, values);
         const token = response.data.token;
         localStorage.setItem('token', token);
 
